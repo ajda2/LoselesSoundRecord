@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gunshot sound analyzer</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_final_record">Gunshot analyzer</string>
+    <string name="title_activity_read">Sound record processing</string>
+    <string name="image_alt">sound graph</string>
+    <string name="toggle_off">Start recording</string>
+    <string name="toggle_on">Stop and process sound</string>
+    <string name="no_sd_card">SD card is not connected!</string>
+    <string name="sound_processing">Reading sound record file</string>
+    <string name="creating_image">Creating sound graph.</string>
+    <string name="gunshot_searching">Searching for gunshot.</string>
+    <string name="save">Save</string>
+    <string name="db_insert_error">Ooops, some tech. problem while saving.</string>
+    <string name="db_delete_error">Ooops, some tech. problem while deleting.</string>
+    <string name="db_default_cat_cant_delete">Default category cannot be deleted.</string>    
+    <string name="title_activity_stored">Stored gunshots</string>
+    <string name="hide_picture">Hide picture</string>
+    <string name="show_stored">Stored gunshots</string>
+    <string name="title_activity_gunshots">Stored gunshots</string>
+    <string name="menu_delete_gunshots">Delete selected</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="context_menu_edit">Edit</string>
+    <string name="title_activity_category_edit">Category edit</string>
+    <string name="category_name">Category name</string>
+    <string name="change_saved">Change saved</string>
+    <string name="menu_category_add">Add category</string>
+    <string name="title_activity_category_add">Add category</string>
+    <string name="category_name_cant_empty">Name cannot be empty</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="set_timer">Start after time</string>
+    <string name="set_random_timer">Start randomly</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_title_time_setup">Time to start record</string>
+    <string name="start">Start</string>
+    <string name="dialog_title_time_select">Select time</string>
+    <string name="dialog_title_random_time_down_select_descr">Select down limit from recording should start.</string>
+    <string name="dialog_title_random_time_up_select_descr">Select up limit to recording should start.</string>
+    <string name="dialog_shoot_after_sound">Recording starts after sound alert.</string>
+    <string name="share">Share</string>
+    <string name="my_gunshots">My gunshots</string>
+    <string name="from">from</string>
+    <string name="no_gunshot">No gunshot were found.</string>
+    <string name="xml_export">Export to XML</string>
+    <string name="xml_export_error">Ooops, some tech. problem while exporting.</string>
+    <string name="choose_category">Select category.</string>
+    <string name="gunshots_saved">Gunshots saved</string>
+    <string name="gunshots_sensitivity">Gunshots sensitivity</string>
+    <string name="show_graph_after_search">Show sound graph after search</string>
+    <string name="delete_wav_after_search">Delete sound record after process</string>
+    <string name="error">Ooops, some errors show up!</string>       
+    <string name="icon_mic_text"></string>
+    <string name="add_gunshot">Add gunshot</string>
+    <string name="time_in_s">Time in seconds</string>
+    <string name="gunshot_added">New gunshot added</string>
+    <string name="save_records_into_music_folder">Save records into Music folder</string>                              
+
+</resources>

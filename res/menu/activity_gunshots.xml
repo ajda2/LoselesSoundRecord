@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/menu_settings"/>
+    
+    <item
+        android:id="@+id/menu_record_share"
+        android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="@string/share"/>
+    
+    <item
+        android:id="@+id/menu_sellect_all_gunshots"
+        android:orderInCategory="102"
+        android:showAsAction="never"
+        android:title="@string/menu_select_all"/>
+    
+    <item
+        android:id="@+id/menu_delete_gunshots"
+        android:orderInCategory="103"
+        android:showAsAction="never"
+        android:title="@string/menu_delete_gunshots"/>
+    
+    <item
+        android:id="@+id/menu_add_gunshot"
+        android:orderInCategory="104"
+        android:showAsAction="never"
+        android:title="@string/add_gunshot"/>
+
+</menu>

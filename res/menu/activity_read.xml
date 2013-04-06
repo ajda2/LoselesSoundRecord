@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    
+    <item android:id="@+id/menu_hide_graph"
+        android:title="@string/hide_picture"
+        android:orderInCategory="101"
+        android:showAsAction="never" />
+    
+    <item android:id="@+id/menu_show_stored"
+        android:title="@string/show_stored"
+        android:orderInCategory="102"
+        android:showAsAction="never" />
+    
+    <item android:id="@+id/menu_add_gunshot"
+        android:title="@string/add_gunshot"
+        android:orderInCategory="103"
+        android:showAsAction="never" />
+    
+</menu>

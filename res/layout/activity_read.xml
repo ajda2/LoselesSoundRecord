@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:padding="0dp" >
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_margin="0dp"
+        android:padding="0dp" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_margin="0dp"
+            android:contentDescription="@string/image_alt"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" >
+
+        </ImageView>
+    </HorizontalScrollView>
+    
+    <ListView
+        android:id="@+id/shotsList"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top"
+        android:layout_marginBottom="55dp"
+        android:choiceMode="multipleChoice"
+        android:visibility="gone" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/saveResultButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="-50dp"
+        android:text="@string/save" />
+
+</LinearLayout>

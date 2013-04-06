@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tic0012.loselessoundrecord"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" 
+        android:allowBackup="true" >
+        <activity
+            android:name="tic0012.loselessoundrecord.FinalRecordActivity"
+            android:label="@string/title_activity_final_record"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="tic0012.loselessoundrecord.ReadActivity"
+            android:label="@string/title_activity_read"
+            android:parentActivityName="tic0012.loselessoundrecord.FinalRecordActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tic0012.loselessoundrecord.FinalRecordActivity" />
+        </activity>
+        <activity
+            android:name="tic0012.loselessoundrecord.StoredActivity"
+            android:label="@string/title_activity_stored"
+            android:parentActivityName="tic0012.loselessoundrecord.FinalRecordActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tic0012.loselessoundrecord.FinalRecordActivity" />
+        </activity>
+        <activity
+            android:name="tic0012.loselessoundrecord.GunshotsActivity"
+            android:label="@string/title_activity_gunshots"
+            android:parentActivityName="tic0012.loselessoundrecord.StoredActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tic0012.loselessoundrecord.StoredActivity" />
+        </activity>        
+    </application>
+
+</manifest>

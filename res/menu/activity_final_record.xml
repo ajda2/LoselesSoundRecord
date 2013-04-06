@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/menu_set_random_timer"
+        android:title="@string/set_random_timer"
+        android:orderInCategory="101"
+        android:showAsAction="never" /> 
+    <item android:id="@+id/menu_set_timer"
+        android:title="@string/set_timer"
+        android:orderInCategory="102"
+        android:showAsAction="never" />    
+    <item android:id="@+id/menu_show_stored"
+        android:title="@string/show_stored"
+        android:orderInCategory="103"
+        android:showAsAction="never" />
+</menu>

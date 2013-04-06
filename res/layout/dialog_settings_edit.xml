@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <TextView
+        android:id="@+id/settingsSensitivityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/gunshots_sensitivity"
+        android:textSize="18sp" />
+
+    <SeekBar
+        android:id="@+id/sensitivityBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/gunshots_sensitivity"
+        android:max="10"
+        android:minHeight="20dip"
+        android:progress="5" />
+
+    <CheckBox
+        android:id="@+id/show_image_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/show_graph_after_search" />
+
+    <CheckBox
+        android:id="@+id/delete_wav_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/delete_wav_after_search" />
+
+    <CheckBox
+        android:id="@+id/save_into_music_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/save_records_into_music_folder" />
+    
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="record_into_music_folder">true</bool>
+    <string name="save_folder">GunshotRecorder</string>
+    <integer name="gunshot_sensitivity">5</integer>
+    <bool name="show_image">true</bool>
+    <bool name="delete_wav_after_read">false</bool>
+    <integer name="compression_ratio">4</integer> <!-- Read each setted sample -->
+    <bool name="compression">true</bool> <!-- If true sompression ratio will be used in reading -->
+    <integer name="max_bitmap_seconds">15</integer> <!-- Max bitmap length in seconds -->
+    <integer name="bitmap_ampl_stretch">60</integer> <!-- Number of RAW amplitudes, which will be stretch into one -->
+</resources>
