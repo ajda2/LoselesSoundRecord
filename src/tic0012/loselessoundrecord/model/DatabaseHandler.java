@@ -20,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	protected static final String DB_NAME = "gunshots_db";
 
-	protected static final int DATABASE_VERSION = 10;
+	protected static final int DATABASE_VERSION = 1;
 
 	public static final String TB_GUNSHOT_NAME = "gunshot";
 	public static final String COLUMN_GUNSHOT_ID = "_id";
@@ -71,7 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// create Record table
 		String CREATE_RECORD_TABLE = "CREATE TABLE " + TB_RECORD_NAME + "("
 				+ COLUMN_RECORD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ COLUMN_RECORD_DATE + " LONG NOT NULL, " 
+				+ COLUMN_RECORD_DATE + " INTEGER NOT NULL, " 
 				+ COLUMN_RECORD_CATEGORY_ID + " INTEGER NOT NULL, " 
 				+ "CONSTRAINT record_in_category FOREIGN KEY (" + COLUMN_RECORD_CATEGORY_ID + ") REFERENCES category (" + COLUMN_CATEGORY_ID + ")"
 				+ ")";
@@ -80,7 +80,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// create gunShots table
 		String CREATE_GUNSHOTS_TABLE = "CREATE TABLE " + TB_GUNSHOT_NAME + "("
 				+ COLUMN_GUNSHOT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ COLUMN_GUNSHOT_TIME + " FLOAT NOT NULL," 
+				+ COLUMN_GUNSHOT_TIME + " REAL NOT NULL," 
 				+ COLUMN_GUNSHOT_RECORD_ID + " INTEGER NOT NULL, " 
 				+ "CONSTRAINT gunshot_in_record FOREIGN KEY (" + COLUMN_GUNSHOT_RECORD_ID + ") REFERENCES record (" + COLUMN_RECORD_ID + ")"
 				+ ")";
