@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Category of GunShots
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class Category extends BaseObject  {
 

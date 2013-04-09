@@ -25,7 +25,7 @@ import android.text.format.DateFormat;
 /**
  * Stored gunShots list activity
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class GunshotsActivity extends BaseActivity {
 

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Database layer, singleton
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 	
@@ -64,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// create Category table
 		String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TB_CATEGORY_NAME + "("
 				+ COLUMN_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ COLUMN_CATEGORY_NAME + " VARCHAR(40) NOT NULL" 				
+				+ COLUMN_CATEGORY_NAME + " TEXT NOT NULL" 				
 				+ ")";
 		db.execSQL(CREATE_CATEGORY_TABLE);
 

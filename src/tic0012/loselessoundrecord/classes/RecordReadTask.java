@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-
 import tic0012.loselessoundrecord.R;
 import tic0012.loselessoundrecord.ReadActivity;
 import android.os.AsyncTask;
@@ -21,7 +20,7 @@ import android.widget.ProgressBar;
  * Asynchronous WAV file reading Gets sound amplitude and transform it into
  * bitmap image. Sets image into ImageView
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 
@@ -75,12 +74,46 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 	/**
 	 * Amplitudes count value, which is GunShot
 	 */
-	private final int SHOT_SENSITIVITY = 196590; // for real gunShot 65533
-
+	private int gunshotSensitivity;		
+	
 	/**
-	 * Number of sample to gunShot
+	 * Time space between gunShots in seconds
 	 */
-	private final int SHOT_WIDTH = 60; // for real gunShot 3
+	private final float GUNSHOT_SPACE = 0.15f;
+	
+	/**
+	 * Minimum space between gunshot in samples
+	 */
+	private int gunshotSpaceSamples;
+	
+	/**
+	 * Time samples, where search for gunSot
+	 */
+	//private final float SEARCHING_PART = 0.05f;
+	private final float SEARCHING_PART = 0.04f;
+	
+	/**
+	 * Number of samples, where to search for gunShot
+	 */
+	private int searchingPartSamples;
+	
+	/**
+	 * Samples count representing gunshot for each sensitivity
+	 */
+	//private final int[] SHOT_VALUES = {0, 1, 2, 3, 4, 8800000, 6, 7, 8, 9, 10};
+	private final int[] SHOT_VALUES = {
+			10000000, 
+			9400000, 
+			8800000, 
+			8200000, 
+			7600000, 
+			7100000, // default value
+			6500000, 
+			6000000, 
+			5500000, 
+			5000000, 
+			4000000
+			};	
 
 	/**
 	 * Set true for debugging output
@@ -103,16 +136,28 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 	private int maxAmplitudes;
 
 	public RecordReadTask(int sampleRate, ProgressBar progrBar, String fileP,
-			ReadActivity activity, boolean compression, int compressionRatio) {
+			ReadActivity activity, boolean compression, int compressionRatio, int sensitivity) {
 		this.filePath = fileP;
 		this.progressBar = progrBar;
 		this.readActivity = activity;
 		this.sampleRate = sampleRate;
 		this.compression = compression;
 		this.compressionRatio = compressionRatio;
+		this.gunshotSensitivity = this.SHOT_VALUES[sensitivity];
+		
+		if(this.compression){
+			// set searching part in samples
+			this.searchingPartSamples = (int)((this.sampleRate / this.compressionRatio ) * this.SEARCHING_PART);
+			// set minimal space between gunShots
+			this.gunshotSpaceSamples = (int)((this.sampleRate / this.compressionRatio ) * this.GUNSHOT_SPACE);
+		}		
+		else{
+			// set searching part in samples
+			this.searchingPartSamples = (int)(this.sampleRate * this.SEARCHING_PART);
+			// set minimal space between gunShots			
+			this.gunshotSpaceSamples = (int)(this.sampleRate * this.GUNSHOT_SPACE);
+		}
 
-		// int amplStretch =
-		// this.readActivity.getResources().getInteger(R.integer.bitmap_ampl_stretch);
 		int maxSeconds = this.readActivity.getResources().getInteger(
 				R.integer.max_bitmap_seconds);
 		if (this.compression) {
@@ -121,6 +166,7 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 		} else {
 			this.maxAmplitudes = this.sampleRate * maxSeconds;
 		}
+		
 	}
 
 	@Override
@@ -135,20 +181,22 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 		int readedBytes = 0; // bytes reading counter
 		int readedSamples = 0;
 		int readedForSearch = 0;
-		short[] amplBuffer = new short[this.SHOT_WIDTH];
+		short[] amplBuffer = new short[this.searchingPartSamples];
+		float shotTime;
+		
+		long start = System.currentTimeMillis();
 
 		try {
-			// debugging amplitude output file
-			/*
+			// debugging amplitude output file			
 			if (this.DEBUG) {
 				File ouputFile = new File(Environment
 						.getExternalStorageDirectory().getAbsolutePath()
-						+ "/AudioRecorder/sinus.txt");
+						+ "/GunshotRecorder/sinus.txt");
 				ouputFile.createNewFile();
 				fileOutpuStream = new FileOutputStream(ouputFile);
 				outStreamWriter = new OutputStreamWriter(fileOutpuStream);
 			}
-			*/
+			
 
 			byte[] myBuff = new byte[2];
 			short ampl;
@@ -185,20 +233,45 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 				}
 
 				// search for gunShot
-				if (readedForSearch == this.SHOT_WIDTH) {
-					if (this.isShot(amplBuffer)) {
-						float shotTime = (float) readedSamples
-								/ (float) this.sampleRate;
-						this.gunshots.add(shotTime);
-						this.sampleShots.add(readedSamples);
-						Log.d("Found shot", "sample time " + shotTime
-								+ "s, index: " + readedSamples);
+				if (readedForSearch == this.searchingPartSamples) {
+					boolean enoughSpace = true;
+					int amplitudeIndex = readedSamples - this.searchingPartSamples;
+					int samplesSize = this.sampleShots.size();
+					// check space between gunShots	
+					if(samplesSize > 0){
+						if((this.sampleShots.get(samplesSize - 1) + this.gunshotSpaceSamples) > amplitudeIndex){
+							enoughSpace = false;
+						}
 					}
-
+					
+					if(enoughSpace){ // enough time space between gunShots, potencialy new gunShot
+						if (this.isShot(amplBuffer)) {
+							//float shotTime = (float) readedSamples / (float) this.sampleRate;																						
+							
+							if(this.compression){									
+								shotTime = (float)amplitudeIndex / ((float)this.sampleRate / (float)this.compressionRatio);							
+							}		
+							else{
+								shotTime = (float)amplitudeIndex / (float)this.sampleRate;
+							}												
+							this.gunshots.add(shotTime);
+							this.sampleShots.add(amplitudeIndex);
+							Log.i("Found shot", "sample time " + shotTime
+									+ "s, index: " + amplitudeIndex);
+						}						
+					}
+					
+					// clear buffer
+					for(int i = 0; i < amplBuffer.length; i++){
+						amplBuffer[i] = 0;
+					}
 					readedForSearch = 0;
-				} else {
-					amplBuffer[readedForSearch] = ampl;
-					readedForSearch++;
+				} else {					
+					// get only positive amplitudes
+					if(ampl > 0){
+						amplBuffer[readedForSearch] = ampl;
+						readedForSearch++;
+					}					
 				}
 
 				// write amplitude into debug file
@@ -233,6 +306,9 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 			}
 		}
 
+		long end = System.currentTimeMillis();
+		Log.i("execution time", ((end-start) / 1000) + " s");
+		
 		// return points;
 		return this.amplitudeList;
 	}
@@ -309,15 +385,15 @@ public class RecordReadTask extends AsyncTask<Void, Integer, ArrayList<Short>> {
 	 * @return
 	 */
 	private boolean isShot(short[] samples) {
-		// TODO: optimize searching for real gunShot
 		int counter = 0;
 
 		for (int i = 0; i < samples.length; i++) {
 			counter += samples[i];
 		}
 
-		if (counter > SHOT_SENSITIVITY) {
-			Log.d("value", "" + counter);
+		if (counter > this.gunshotSensitivity) {
+			Log.i("sensitivity", "" + this.gunshotSensitivity);
+			Log.i("value", "" + counter);
 			return true;
 		}
 

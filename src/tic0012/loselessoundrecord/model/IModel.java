@@ -4,7 +4,7 @@ package tic0012.loselessoundrecord.model;
 /**
  * Model structure
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public interface IModel<T>{
 

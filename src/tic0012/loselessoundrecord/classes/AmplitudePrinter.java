@@ -161,8 +161,7 @@ public class AmplitudePrinter {
 				// draw positive amplitude part
 				canvas.drawLine(startX, startY, stopX, stopY, bluePaint);
 			}
-			
-			
+						
 			// Draw negative part
 			if(point[1] != 0){
 				stopY = (this.imgHeight - point[1]) - (this.imgHeight / 2);
@@ -173,22 +172,24 @@ public class AmplitudePrinter {
 
 				// draw negative amplitude part
 				canvas.drawLine(startX, startY, stopX, stopY, bluePaint);
-			}
-			
+			}			
 
 			// draw shot icon
 			for (int shot : this.gunShotSamples) {
 				if ((shot / this.amplStretch) == loopCount) {
 
 					canvas.drawBitmap(this.shotIcon,
-							(loopCount - (this.shotIcon.getWidth() / 2)), 0, null);
-					// Log.d("shot on index ", "" + loopCount);
+							(loopCount - ( 2 * this.shotIcon.getWidth())), 0, null);
 				}
 			}
 
 			startX = loopCount;
 			startY = stopY;
 			loopCount++;
+		}
+		
+		for (int i = 0; i < this.imgWidth; i++) {
+			
 		}
 
 		// draw zero horizontal line

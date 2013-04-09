@@ -117,6 +117,7 @@ public final class R {
         public static final int dialog_title_time_select=0x7f050023;
         public static final int dialog_title_time_setup=0x7f050021;
         public static final int error=0x7f050032;
+        public static final int file_not_found=0x7f050038;
         public static final int from=0x7f050029;
         public static final int gunshot_added=0x7f050036;
         public static final int gunshot_searching=0x7f05000b;

@@ -5,7 +5,7 @@ import tic0012.loselessoundrecord.model.IDbEntity;
 /**
  * Base object representation, Models interact with it
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public abstract class BaseObject implements IDbEntity{
 

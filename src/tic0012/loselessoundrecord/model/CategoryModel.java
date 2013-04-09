@@ -18,7 +18,7 @@ import android.util.Xml;
 /**
  * Category of GunShots repository model, singleton
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class CategoryModel implements IModel<Category> {
 

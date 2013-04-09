@@ -42,7 +42,7 @@ import android.support.v4.app.NavUtils;
 /**
  * List of all stored categories and records in DB
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class StoredActivity extends ExpandableListActivity {
 

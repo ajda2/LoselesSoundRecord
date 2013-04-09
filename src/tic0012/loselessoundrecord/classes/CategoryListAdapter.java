@@ -16,7 +16,7 @@ import android.widget.TextView;
 /**
  * Expandable Adapter, contains all categories with records
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class CategoryListAdapter extends BaseExpandableListAdapter {
 	

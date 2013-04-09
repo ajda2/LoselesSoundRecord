@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Recorded gunShot group representation
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class Record extends BaseObject  {
 

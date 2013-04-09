@@ -29,7 +29,7 @@ import android.widget.ToggleButton;
 /**
  * Starting activity
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class FinalRecordActivity extends BaseActivity {
 	/**
@@ -115,7 +115,7 @@ public class FinalRecordActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_final_record);						
+		setContentView(R.layout.activity_final_record);							
 				
 		// work with my recording class
 		this.myRecorder = new UncompressedAudioRecorder();	
@@ -371,8 +371,12 @@ public class FinalRecordActivity extends BaseActivity {
 					String[] mimeTypes = new String[]{ "audio/wav", "audio/x-wav" };
 					MediaScannerConnection.scanFile(getApplicationContext(), filesToScan, mimeTypes, null);	
 				}				
-
-				//recordedFilePath = Environment.getExternalStorageDirectory().getPath() + "/GunshotRecorder/sinus_long.wav";
+				
+				// TODO: remove after debug
+				//recordedFilePath = getSavePath(true) + "/four_realshot.wav";
+				//recordedFilePath = getSavePath(true) + "/one_real_shot.wav";
+				//recordedFilePath = getSavePath(true) + "/real_short.wav";
+				//recordedFilePath = getSavePath(true) + "/real_long.wav";
 				
 				// change activity
 				setReadActivity(recordedFilePath);
@@ -410,11 +414,11 @@ public class FinalRecordActivity extends BaseActivity {
 	 */
 	private void startRecording() throws SDCardException {
 		this.saveToMusicDir = this.preferences.getBoolean(this.SAVE_INTO_MUSIC_FOLDER, this.getResources().getBoolean(R.bool.record_into_music_folder));
-		final String savePath = this.getSavePath(saveToMusicDir);
+		final String savePath = this.getSavePath(saveToMusicDir);		
 		Log.d("savePath", savePath);	
 		
 		// screen can turn off now
-		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		String state = Environment.getExternalStorageState();
 		if (!Environment.MEDIA_MOUNTED.equals(state)) { // SD card is

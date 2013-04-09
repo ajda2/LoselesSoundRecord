@@ -13,7 +13,7 @@ import android.text.format.DateFormat;
 /**
  * Record set of GunShots repository model, singleton
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class RecordModel implements IModel<Record> {
 

@@ -5,18 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 /**
  * Uncompressed Mono 16bit recorder
  * Sample rate = 44 100 kHz
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class UncompressedAudioRecorder {
 	
@@ -310,7 +308,7 @@ public class UncompressedAudioRecorder {
 		header[13] = 'm';
 		header[14] = 't';
 		header[15] = ' ';		
-		header[16] = 16;  // 4 bytes: size of 'fmt ' chunk // Sub-chunk size, 16 for PCM
+		header[16] = 16;  // 4 bytes size of 'fmt ' chunk // Sub-chunk size, 16 for PCM
 		header[17] = 0;
 		header[18] = 0;
 		header[19] = 0;

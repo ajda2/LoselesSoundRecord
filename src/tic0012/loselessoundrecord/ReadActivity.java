@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,7 +44,7 @@ import android.widget.Toast;
 /**
  * Reading WAV file activity
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class ReadActivity extends BaseActivity {
 
@@ -264,10 +265,12 @@ public class ReadActivity extends BaseActivity {
 				.getInstance(this.getApplicationContext());
 
 		// Setup asynchronous file reading
+		int sensitivy = this.preferences.getInt(this.CONFIG_SENSITIVITY_KEY, this.getResources().getInteger(R.integer.gunshot_sensitivity));
+		int compressionRatio = this.getResources().getInteger(R.integer.compression_ratio);
+		boolean compression = this.getResources().getBoolean(R.bool.compression);
 		this.task = new RecordReadTask(this.SAMPLE_RATE, this.progressBar,
-				this.filePath, this, this.getResources().getBoolean(
-						R.bool.compression), this.getResources().getInteger(
-						R.integer.compression_ratio));
+				this.filePath, this, compression, compressionRatio,
+				sensitivy);
 
 		// start asynchronous rendering
 		if (this.amplitudes == null) {
@@ -278,9 +281,19 @@ public class ReadActivity extends BaseActivity {
 
 			if (Environment.MEDIA_MOUNTED.equals(state)
 					|| Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) { // SD card is ready
+				
+				File file = new File(this.filePath);
+				if(!file.exists()){ // file dos not exists
+					Toast.makeText(this.getApplicationContext(), R.string.file_not_found, Toast.LENGTH_SHORT).show();
+					this.setActivity(FinalRecordActivity.class, true);
+				}
+				
 				// run new WAV file reading
-				this.task.execute();
+				this.task.execute();				
 				this.progressDialog.show();
+				
+				// prevent screen turn off
+				this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 			} else { // SD card is not ready
 				Toast.makeText(this.getApplicationContext(),
 						R.string.no_sd_card, Toast.LENGTH_LONG).show();
@@ -402,6 +415,9 @@ public class ReadActivity extends BaseActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int screenDensity = metrics.densityDpi;
+		
+		// screen can turn off now
+		this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		// remove WAV file if configured
 		boolean deleteWav = this.preferences.getBoolean(this.CONFIG_DELETE_WAV,

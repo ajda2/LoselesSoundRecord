@@ -8,7 +8,7 @@ import android.database.Cursor;
 /**
  * GunShot repository model, singleton
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class GunshotModel implements IModel<Gunshot> {
 

@@ -19,9 +19,9 @@ import android.widget.Toast;
 /**
  * Base Activity
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 	/**
 	 * Key to retrieve stored WAV file path through extra intent
 	 */
@@ -91,8 +91,7 @@ public class BaseActivity extends Activity {
 			this.setActivity(StoredActivity.class, false);
 			return true;
 
-		case R.id.menu_settings:
-			Log.d("show settings", "" + this.preferences.getInt(this.CONFIG_SENSITIVITY_KEY, 5));
+		case R.id.menu_settings:			
 			this.settingsDialog();
 			
 			return true;		
@@ -152,7 +151,7 @@ public class BaseActivity extends Activity {
 		    	editor.putInt(CONFIG_SENSITIVITY_KEY, sensitivityValue);
 		    	editor.putBoolean(CONFIG_SHOW_IMAGE_KEY, showImage);
 		    	editor.putBoolean(CONFIG_DELETE_WAV, deleteWav);
-		    	editor.putBoolean(SAVE_INTO_MUSIC_FOLDER, saveIntoMusic);
+		    	editor.putBoolean(SAVE_INTO_MUSIC_FOLDER, saveIntoMusic);		    			    
 		    	
 		    	if(editor.commit()){
 		    		Toast.makeText(getApplicationContext(),

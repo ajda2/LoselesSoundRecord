@@ -4,7 +4,7 @@ package tic0012.loselessoundrecord.classes;
 /**
  * GunShot representation
  * 
- * @author tic0012
+ * @author tic0012, Michal Tichý
  */
 public class Gunshot extends BaseObject {
 	
