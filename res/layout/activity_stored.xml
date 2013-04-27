@@ -6,8 +6,9 @@
     android:orientation="vertical"
     tools:context=".StoredActivity" >
 
-    <ExpandableListView
-        android:id="@+id/android:list"
+    <!-- android:id="@+id/android:list" -->
+    <ExpandableListView        
+        android:id="@+id/CategoryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ExpandableListView>

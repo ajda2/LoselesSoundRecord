@@ -377,6 +377,7 @@ public class FinalRecordActivity extends BaseActivity {
 				//recordedFilePath = getSavePath(true) + "/one_real_shot.wav";
 				//recordedFilePath = getSavePath(true) + "/real_short.wav";
 				//recordedFilePath = getSavePath(true) + "/real_long.wav";
+				//recordedFilePath = getSavePath(true) + "/sound_7.wav";
 				
 				// change activity
 				setReadActivity(recordedFilePath);

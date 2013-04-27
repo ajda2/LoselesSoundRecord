@@ -11,7 +11,7 @@ import android.util.Log;
 /**
  * Prints sound amplitude into bitmap
  * 
- * @author ajda2
+ * @author tic0012, Michal Tichý
  */
 public class AmplitudePrinter {
 

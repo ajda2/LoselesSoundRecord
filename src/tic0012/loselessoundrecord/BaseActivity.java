@@ -30,7 +30,7 @@ public abstract class BaseActivity extends Activity {
 	/**
 	 * Key to retrieve stored Record id through extra intent
 	 */
-	public static final String RECORD_ID_FLAG = "gunshot_id";
+	protected final String RECORD_ID_FLAG = "gunshot_id";
 
 	/**
 	 * Key to retrieve stored Category id through extra intent

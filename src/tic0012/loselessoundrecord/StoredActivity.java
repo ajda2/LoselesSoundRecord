@@ -16,11 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.AlertDialog;
-import android.app.ExpandableListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -30,21 +27,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.support.v4.app.NavUtils;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 /**
  * List of all stored categories and records in DB
  * 
  * @author tic0012, Michal Tichý
  */
-public class StoredActivity extends ExpandableListActivity {
+//public class StoredActivity extends ExpandableListActivity {
+public class StoredActivity extends BaseActivity {
 
 	/**
 	 * Category adapter for expandable list
@@ -74,44 +71,15 @@ public class StoredActivity extends ExpandableListActivity {
 	 * Folder where save XML export
 	 */
 	private String EXPORT_DIR;
-
-	/**
-	 * Basic application preferences name
-	 */
-	private final String PREFERENCES_NAME = "BasePref";
-
-	/**
-	 * Sensitivity key name in configuration file
-	 */
-	protected final String CONFIG_SENSITIVITY_KEY = "gunshot_sensitivity";
-
-	/**
-	 * Image show key name in configuration file
-	 */
-	protected final String CONFIG_SHOW_IMAGE_KEY = "show_image";
-
-	/**
-	 * Delete WAV file key name in configuration file
-	 */
-	protected final String CONFIG_DELETE_WAV = "delete_wav";
 	
-	/**
-	 * Save records into music folder name in configuration file
-	 */
-	protected final String SAVE_INTO_MUSIC_FOLDER = "record_into_music_folder";
-
-	/**
-	 * Shared preferences for whole application
-	 */
-	protected SharedPreferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_stored);
 		
 		this.EXPORT_DIR = this.getResources().getString(R.string.save_folder);		
-		
-		setContentView(R.layout.activity_stored);
+				
 
 		this.categoryModel = CategoryModel.getInstance(this
 				.getApplicationContext());
@@ -123,8 +91,6 @@ public class StoredActivity extends ExpandableListActivity {
 		this.setUpView();
 
 		this.registerForContextMenu(this.listView);
-
-		this.preferences = this.getSharedPreferences(this.PREFERENCES_NAME, 0);
 	}
 
 	@Override
@@ -210,18 +176,20 @@ public class StoredActivity extends ExpandableListActivity {
 	/**
 	 * Handle child click event
 	 */
-	public boolean onChildClick(ExpandableListView parent, View v,
-			int groupPosition, int childPosition, long id) {
-		// start GunShots Activity
-		Intent intent = new Intent(this.getApplicationContext(),
-				GunshotsActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+	private OnChildClickListener childClickListener = new OnChildClickListener(){
+		public boolean onChildClick(ExpandableListView parent, View v,
+				int groupPosition, int childPosition, long id) {
+			// start GunShots Activity
+			Intent intent = new Intent(getApplicationContext(),
+					GunshotsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-		intent.putExtra(BaseActivity.RECORD_ID_FLAG, id);
-		startActivity(intent);
+			intent.putExtra(RECORD_ID_FLAG, id);
+			startActivity(intent);
 
-		return true;
-	}
+			return true;
+		}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -289,10 +257,6 @@ public class StoredActivity extends ExpandableListActivity {
 			}
 
 			return true;
-		case R.id.menu_settings:
-			this.settingsDialog();
-
-			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -304,7 +268,10 @@ public class StoredActivity extends ExpandableListActivity {
 	private void setUpView() {
 		mAdapter = new CategoryListAdapter(this.categories,
 				this.getApplicationContext());
-		this.listView = this.getExpandableListView();
+
+		this.listView = (ExpandableListView) findViewById(R.id.CategoryList);
+		this.listView.setOnChildClickListener(this.childClickListener);		
+		
 		this.listView.setAdapter(mAdapter);
 	}
 
@@ -457,65 +424,5 @@ public class StoredActivity extends ExpandableListActivity {
 
 		categoryAddDialog.show();
 	}
-
-	/**
-	 * Show and handle settings dialog
-	 */
-	private void settingsDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.menu_settings);
-
-		LayoutInflater inflater = LayoutInflater.from(this);
-		View view = inflater.inflate(R.layout.dialog_settings_edit, null);
-		builder.setView(view);
-
-		final SeekBar sensitivityBar = (SeekBar) view
-				.findViewById(R.id.sensitivityBar);
-		final CheckBox showImageCheckBox = (CheckBox) view
-				.findViewById(R.id.show_image_checkbox);
-		final CheckBox deleteWavCheckBox = (CheckBox) view
-				.findViewById(R.id.delete_wav_checkbox);
-		final CheckBox saveIntoMusicCheckBox = (CheckBox)view.findViewById(R.id.save_into_music_checkbox);
-		final Resources res = this.getResources();
-
-		sensitivityBar.setProgress(this.preferences.getInt(
-				this.CONFIG_SENSITIVITY_KEY,
-				res.getInteger(R.integer.gunshot_sensitivity)));
-		showImageCheckBox.setChecked(this.preferences.getBoolean(
-				this.CONFIG_SHOW_IMAGE_KEY, res.getBoolean(R.bool.show_image)));
-		deleteWavCheckBox.setChecked(this.preferences.getBoolean(
-				this.CONFIG_DELETE_WAV,
-				res.getBoolean(R.bool.delete_wav_after_read)));
-		saveIntoMusicCheckBox.setChecked(this.preferences.getBoolean(this.SAVE_INTO_MUSIC_FOLDER, res.getBoolean(R.bool.record_into_music_folder)));
-
-		builder.setPositiveButton(R.string.save,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						int sensitivityValue = sensitivityBar.getProgress();
-						boolean showImage = showImageCheckBox.isChecked();
-						boolean deleteWav = deleteWavCheckBox.isChecked();
-						boolean saveIntoMusic = saveIntoMusicCheckBox.isChecked();
-
-						SharedPreferences.Editor editor = preferences.edit();
-						editor.putInt(CONFIG_SENSITIVITY_KEY, sensitivityValue);
-						editor.putBoolean(CONFIG_SHOW_IMAGE_KEY, showImage);
-						editor.putBoolean(CONFIG_DELETE_WAV, deleteWav);
-						editor.putBoolean(SAVE_INTO_MUSIC_FOLDER, saveIntoMusic);
-
-						if (editor.commit()) {
-							Toast.makeText(
-									getApplicationContext(),
-									R.string.change_saved, Toast.LENGTH_SHORT).show();
-						} else {
-							Toast.makeText(
-									getApplicationContext(), R.string.error,
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-
-		AlertDialog settingsDialog = builder.create();
-		settingsDialog.show();
-
-	}
+	
 }

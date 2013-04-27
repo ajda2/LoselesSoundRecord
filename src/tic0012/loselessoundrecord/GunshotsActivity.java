@@ -58,7 +58,7 @@ public class GunshotsActivity extends BaseActivity {
 
 		// try to get filePath and stored points
 		if (savedInstanceState != null) { // activity is already running
-			recordId = savedInstanceState.getLong(BaseActivity.RECORD_ID_FLAG);
+			recordId = savedInstanceState.getLong(this.RECORD_ID_FLAG);
 
 		} else { // new activity intent
 			Bundle extras = getIntent().getExtras();
@@ -67,7 +67,7 @@ public class GunshotsActivity extends BaseActivity {
 				// start parent activity
 				this.setActivity(FinalRecordActivity.class, true);
 			} else {
-				recordId = extras.getLong(BaseActivity.RECORD_ID_FLAG);
+				recordId = extras.getLong(this.RECORD_ID_FLAG);
 			}
 		}
 
@@ -136,7 +136,7 @@ public class GunshotsActivity extends BaseActivity {
 		super.onSaveInstanceState(outState);
 
 		// make record persistent
-		outState.putLong(BaseActivity.RECORD_ID_FLAG, this.record.getId());
+		outState.putLong(this.RECORD_ID_FLAG, this.record.getId());
 	}
 
 	/**
