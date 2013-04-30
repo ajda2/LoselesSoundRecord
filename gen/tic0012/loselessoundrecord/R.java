@@ -31,41 +31,47 @@ public final class R {
     public static final class id {
         public static final int CategoryList=0x7f090009;
         public static final int LinearLayout1=0x7f090005;
-        public static final int context_menu_delete=0x7f09001f;
-        public static final int context_menu_edit=0x7f090020;
-        public static final int context_menu_hide_picture=0x7f090021;
-        public static final int context_menu_record_share=0x7f090022;
-        public static final int delete_wav_checkbox=0x7f090010;
+        public static final int context_menu_delete=0x7f090022;
+        public static final int context_menu_edit=0x7f090023;
+        public static final int context_menu_hide_picture=0x7f090024;
+        public static final int context_menu_record_share=0x7f090025;
+        public static final int delete_wav_checkbox=0x7f090011;
         public static final int dialog_countdown_text=0x7f09000c;
         public static final int dialog_editText=0x7f09000b;
         public static final int gunshotsLinearLayout=0x7f090002;
         public static final int gunsotsListView=0x7f090004;
         public static final int imageView1=0x7f090006;
         public static final int mainLayout=0x7f090000;
-        public static final int menu_add_gunshot=0x7f09001c;
-        public static final int menu_category_add=0x7f090015;
-        public static final int menu_category_xml_export=0x7f09001e;
-        public static final int menu_delete_gunshots=0x7f09001b;
-        public static final int menu_hide_graph=0x7f09001d;
-        public static final int menu_record_share=0x7f090019;
-        public static final int menu_sellect_all_gunshots=0x7f09001a;
-        public static final int menu_set_random_timer=0x7f090016;
-        public static final int menu_set_timer=0x7f090017;
-        public static final int menu_settings=0x7f090014;
-        public static final int menu_show_stored=0x7f090018;
-        public static final int progressBar2=0x7f090013;
-        public static final int readingProgressBar=0x7f090012;
+        public static final int menu_add_gunshot=0x7f09001f;
+        public static final int menu_category_add=0x7f090018;
+        public static final int menu_category_xml_export=0x7f090021;
+        public static final int menu_delete_gunshots=0x7f09001e;
+        public static final int menu_hide_graph=0x7f090020;
+        public static final int menu_record_share=0x7f09001c;
+        public static final int menu_sellect_all_gunshots=0x7f09001d;
+        public static final int menu_set_random_timer=0x7f090019;
+        public static final int menu_set_timer=0x7f09001a;
+        public static final int menu_settings=0x7f090017;
+        public static final int menu_show_stored=0x7f09001b;
+        public static final int progressBar2=0x7f090016;
+        public static final int readingProgressBar=0x7f090015;
         public static final int recordControllButton=0x7f090001;
         public static final int recordNameText=0x7f090003;
         public static final int saveResultButton=0x7f090008;
-        public static final int save_into_music_checkbox=0x7f090011;
-        public static final int sensitivityBar=0x7f09000e;
-        public static final int settingsSensitivityTextView=0x7f09000d;
+        public static final int save_into_music_checkbox=0x7f090012;
+        public static final int scrollView1=0x7f09000d;
+        public static final int sensitivityBar=0x7f09000f;
+        public static final int settingsSensitivityTextView=0x7f09000e;
         public static final int shotsList=0x7f090007;
-        public static final int show_image_checkbox=0x7f09000f;
+        public static final int show_image_checkbox=0x7f090010;
+        public static final int stopTimeEditText=0x7f090014;
+        public static final int textView1=0x7f090013;
         public static final int timeEditText=0x7f09000a;
     }
     public static final class integer {
+        /**  Number of RAW amplitudes, which will be stretch into one 
+         */
+        public static final int auto_stop_time=0x7f060004;
         /**  Max bitmap length in seconds 
          */
         public static final int bitmap_ampl_stretch=0x7f060003;
@@ -144,6 +150,7 @@ public final class R {
         public static final int show_stored=0x7f050012;
         public static final int sound_processing=0x7f050009;
         public static final int start=0x7f050022;
+        public static final int stop_after=0x7f050039;
         public static final int time_in_s=0x7f050035;
         public static final int title_activity_category_add=0x7f05001b;
         public static final int title_activity_category_edit=0x7f050017;

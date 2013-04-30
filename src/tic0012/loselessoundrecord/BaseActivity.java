@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -61,6 +62,11 @@ public abstract class BaseActivity extends Activity {
 	 * Save records into music folder name in configuration file
 	 */
 	protected final String SAVE_INTO_MUSIC_FOLDER = "record_into_music_folder";
+	
+	/**
+	 * Auto stop time key in configuration file
+	 */
+	protected final String CONFIG_AUTO_STOP_TIME_KEY = "auto_stop_time";
 
 	/**
 	 * Shared preferences for whole application
@@ -131,27 +137,41 @@ public abstract class BaseActivity extends Activity {
 		final SeekBar sensitivityBar = (SeekBar)view.findViewById(R.id.sensitivityBar);	
 		final CheckBox showImageCheckBox = (CheckBox)view.findViewById(R.id.show_image_checkbox);
 		final CheckBox deleteWavCheckBox = (CheckBox)view.findViewById(R.id.delete_wav_checkbox);
-		final CheckBox saveIntoMusicCheckBox = (CheckBox)view.findViewById(R.id.save_into_music_checkbox);	
+		final CheckBox saveIntoMusicCheckBox = (CheckBox)view.findViewById(R.id.save_into_music_checkbox);
+		final EditText stopTimeEditText = (EditText)view.findViewById(R.id.stopTimeEditText);	
 		final Resources res = this.getResources();
 		
 		
 		sensitivityBar.setProgress(this.preferences.getInt(this.CONFIG_SENSITIVITY_KEY, res.getInteger(R.integer.gunshot_sensitivity)));
 		showImageCheckBox.setChecked(this.preferences.getBoolean(this.CONFIG_SHOW_IMAGE_KEY, res.getBoolean(R.bool.show_image)));
 		deleteWavCheckBox.setChecked(this.preferences.getBoolean(this.CONFIG_DELETE_WAV, res.getBoolean(R.bool.delete_wav_after_read)));
-		saveIntoMusicCheckBox.setChecked(this.preferences.getBoolean(this.SAVE_INTO_MUSIC_FOLDER, res.getBoolean(R.bool.record_into_music_folder)));
+		
+		int autoStopDefault = this.preferences.getInt(this.CONFIG_AUTO_STOP_TIME_KEY, res.getInteger(R.integer.auto_stop_time));
+		if(autoStopDefault > 0){
+			stopTimeEditText.setText(Integer.toString(autoStopDefault));
+		}		
 		
 		builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {				
 		    public void onClick(DialogInterface dialog, int whichButton) {
 		    	int sensitivityValue = sensitivityBar.getProgress();	
 		    	boolean showImage = showImageCheckBox.isChecked();
 		    	boolean deleteWav = deleteWavCheckBox.isChecked();
-		    	boolean saveIntoMusic = saveIntoMusicCheckBox.isChecked();
+		    	boolean saveIntoMusic = saveIntoMusicCheckBox.isChecked();				    			    
+		    	int autoStopTime = 0; 
+		    	
+		    	String textValue = stopTimeEditText.getText().toString();
+		    	
+		    	if (!textValue.equals("")) {
+		    		autoStopTime = Integer.parseInt(textValue);
+				}		    
+		    	
 		    	
 		    	SharedPreferences.Editor editor = preferences.edit();
 		    	editor.putInt(CONFIG_SENSITIVITY_KEY, sensitivityValue);
 		    	editor.putBoolean(CONFIG_SHOW_IMAGE_KEY, showImage);
 		    	editor.putBoolean(CONFIG_DELETE_WAV, deleteWav);
-		    	editor.putBoolean(SAVE_INTO_MUSIC_FOLDER, saveIntoMusic);		    			    
+		    	editor.putBoolean(SAVE_INTO_MUSIC_FOLDER, saveIntoMusic);
+		    	editor.putInt(CONFIG_AUTO_STOP_TIME_KEY, autoStopTime);
 		    	
 		    	if(editor.commit()){
 		    		Toast.makeText(getApplicationContext(),

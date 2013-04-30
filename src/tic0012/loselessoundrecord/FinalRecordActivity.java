@@ -95,22 +95,32 @@ public class FinalRecordActivity extends BaseActivity {
 	/**
 	 * Dialog for showing remaining time
 	 */
-	AlertDialog countDownDialog;
+	private AlertDialog countDownDialog;
 
 	/**
 	 * TextView inside countDownDialog
 	 */
-	TextView countDownTextView;
+	private TextView countDownTextView;
 	
 	/**
 	 * Dialog for information about random recording
 	 */
-	AlertDialog randomRecordDialog;
+	private AlertDialog randomRecordDialog;			
 	
 	/**
 	 * If true, recorded sound will be stored in public Music folder
 	 */
 	private boolean saveToMusicDir;
+	
+	/**
+	 * Auto stop recording after time
+	 */
+	private int autoStopTime;
+	
+	/**
+	 * Timer for auto stop recording
+	 */
+	private StopTimer stopTimer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -129,7 +139,7 @@ public class FinalRecordActivity extends BaseActivity {
 				this.timePickerListener, 0, 0, true);
 		this.timePickerDialog.setCancelable(true);
 		this.timePickerDialog.setTitle(R.string.dialog_title_time_setup);
-
+				
 		// create countDown dialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.dialog_title_time_setup);
@@ -171,7 +181,7 @@ public class FinalRecordActivity extends BaseActivity {
 		builder.setMessage(R.string.dialog_shoot_after_sound);		
 		this.randomRecordDialog = builder.create();
 		this.randomRecordDialog.setOnCancelListener(this.randomRecordCancelListener);
-		this.randomRecordDialog.setOnDismissListener(this.randomRecordDismissListener);
+		this.randomRecordDialog.setOnDismissListener(this.randomRecordDismissListener);	
 	}
 
 	@Override
@@ -362,6 +372,10 @@ public class FinalRecordActivity extends BaseActivity {
 				}
 
 			} else { // stop recording
+				if(stopTimer != null){
+					stopTimer.cancel();
+				}
+				
 				recordedFilePath = myRecorder.stopRecording();
 										
 				// Add record to media scanner
@@ -417,6 +431,16 @@ public class FinalRecordActivity extends BaseActivity {
 		this.saveToMusicDir = this.preferences.getBoolean(this.SAVE_INTO_MUSIC_FOLDER, this.getResources().getBoolean(R.bool.record_into_music_folder));
 		final String savePath = this.getSavePath(saveToMusicDir);		
 		Log.d("savePath", savePath);	
+		
+		// get auto stop time from preff.
+		this.autoStopTime = this.preferences.getInt(this.CONFIG_AUTO_STOP_TIME_KEY, this.getResources().getInteger(R.integer.auto_stop_time));
+
+		if(this.autoStopTime > 0){
+			this.stopTimer = new StopTimer((this.autoStopTime * 1000), 1000);	
+			this.stopTimer.start();
+		}
+		
+		Log.i("auto stop", "" + this.autoStopTime);
 		
 		// screen can turn off now
 		this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -568,5 +592,28 @@ public class FinalRecordActivity extends BaseActivity {
 		}
 				
 		return filePath;
+	}
+	
+	/**
+	 * Stop recording
+	 */
+	protected class StopTimer extends CountDownTimer {
+
+		public StopTimer(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+			
+			// prevent screen turn off
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
+
+		@Override
+		public void onFinish() {						
+			toggleButton.performClick();
+		}
+
+		@Override
+		public void onTick(long arg0) {	
+			Log.i("timer tick", "ticked");
+		}
 	}
 }

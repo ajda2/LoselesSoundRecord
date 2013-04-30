@@ -56,5 +56,6 @@
     <string name="gunshot_added">Nový výstřel přidán</string>
     <string name="save_records_into_music_folder">Ukládat nahrávky do složky s hudbou</string> 
     <string name="file_not_found">Soubot nebyl nalezen</string> 
+    <string name="stop_after">Zastavit nahrávání po</string>   
 	
 </resources>

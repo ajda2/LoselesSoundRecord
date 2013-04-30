@@ -56,6 +56,7 @@
     <string name="time_in_s">Time in seconds</string>
     <string name="gunshot_added">New gunshot added</string>
     <string name="save_records_into_music_folder">Save records into Music folder</string>
-    <string name="file_not_found">File was not found</string>                               
+    <string name="file_not_found">File was not found</string>
+    <string name="stop_after">Stop recording after</string>                                   
 
 </resources>

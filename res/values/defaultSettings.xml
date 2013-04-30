@@ -9,4 +9,5 @@
     <bool name="compression">true</bool> <!-- If true sompression ratio will be used in reading -->
     <integer name="max_bitmap_seconds">15</integer> <!-- Max bitmap length in seconds -->
     <integer name="bitmap_ampl_stretch">60</integer> <!-- Number of RAW amplitudes, which will be stretch into one -->
+    <integer name="auto_stop_time">0</integer> <!-- Stop recording automaticly, 0 = stop manualy -->
 </resources>
