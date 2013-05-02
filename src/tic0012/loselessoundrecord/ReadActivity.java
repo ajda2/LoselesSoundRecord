@@ -30,7 +30,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
@@ -139,11 +141,32 @@ public class ReadActivity extends BaseActivity {
 	 * Dialog for adding gunShot
 	 */
 	private AlertDialog addGunShotDialog;
+	
+	/**
+	 * Clicked time
+	 */
+	private float clickedTime;
+	
+	private int compressionRatio;
+	
+	private boolean compression;
+	
+	private int bitmapAmplitudeStretch;
+	
+	/**
+	 * EditText for new gunShot time
+	 */
+	private EditText addGunshotEditText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_read);
+		
+		
+		this.compressionRatio = this.getResources().getInteger(R.integer.compression_ratio);
+		this.compression = this.getResources().getBoolean(R.bool.compression);
+		this.bitmapAmplitudeStretch = this.getResources().getInteger(R.integer.bitmap_ampl_stretch);
 
 		// create no gunShot found dialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -228,8 +251,7 @@ public class ReadActivity extends BaseActivity {
 		}
 		this.printer = new AmplitudePrinter(printerSampleRate, crosshair,
 				(display.getHeight() - 80), this.getResources().getInteger(
-						R.integer.max_bitmap_seconds), this.getResources()
-						.getInteger(R.integer.bitmap_ampl_stretch));
+						R.integer.max_bitmap_seconds), this.bitmapAmplitudeStretch);
 
 		// try to get filePath and stored points
 		if (savedInstanceState != null) { // activity is already running
@@ -266,10 +288,10 @@ public class ReadActivity extends BaseActivity {
 
 		// Setup asynchronous file reading
 		int sensitivy = this.preferences.getInt(this.CONFIG_SENSITIVITY_KEY, this.getResources().getInteger(R.integer.gunshot_sensitivity));
-		int compressionRatio = this.getResources().getInteger(R.integer.compression_ratio);
-		boolean compression = this.getResources().getBoolean(R.bool.compression);
+		//int compressionRatio = this.getResources().getInteger(R.integer.compression_ratio);
+		//boolean compression = this.getResources().getBoolean(R.bool.compression);
 		this.task = new RecordReadTask(this.SAMPLE_RATE, this.progressBar,
-				this.filePath, this, compression, compressionRatio,
+				this.filePath, this, this.compression, this.compressionRatio,
 				sensitivy);
 
 		// start asynchronous rendering
@@ -309,6 +331,10 @@ public class ReadActivity extends BaseActivity {
 		this.categoryModel = CategoryModel.getInstance(this
 				.getApplicationContext());
 		this.categories = this.categoryModel.getAll();
+		
+		
+		// Image view touch listener
+		this.imageView.setOnTouchListener(this.mOnTouch);		
 	}
 
 	@Override
@@ -325,10 +351,11 @@ public class ReadActivity extends BaseActivity {
 			this.hidePicture();
 
 			return true;
-
+			
 		case R.id.menu_add_gunshot:
+			this.addGunshotEditText.setText("");
 			this.addGunShotDialog.show();
-
+			
 			return true;
 		}
 
@@ -399,8 +426,16 @@ public class ReadActivity extends BaseActivity {
 		switch (item.getItemId()) {
 		case R.id.context_menu_hide_picture:
 			this.hidePicture();
+			return true;	
+			
+		case R.id.context_menu_add_gunshot:
+			addGunshotEditText.setText(Float.toString(this.clickedTime));
+			Log.i("clickedTime ", "" + this.clickedTime);
+			Log.i("edit text value", "value" + addGunshotEditText.getText().toString());
+			this.addGunShotDialog.show();
+			
 			return true;
-		}
+		}	
 
 		return super.onContextItemSelected(item);
 	}
@@ -601,13 +636,14 @@ public class ReadActivity extends BaseActivity {
 		View view = inflater.inflate(R.layout.dialog_add_gunshot, null);
 		addGunShotBuilder.setView(view);
 
-		final EditText timeEditText = (EditText) view
+		
+		this.addGunshotEditText = (EditText) view
 				.findViewById(R.id.timeEditText);
 
 		addGunShotBuilder.setPositiveButton(R.string.save,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						String textValue = timeEditText.getText().toString();
+						String textValue = addGunshotEditText.getText().toString();
 						if (textValue.equals("")) {
 							return;
 						}
@@ -630,4 +666,32 @@ public class ReadActivity extends BaseActivity {
 					}
 				});
 	}
+	
+	/**
+	 * Get position of touch
+	 */
+	OnTouchListener mOnTouch = new OnTouchListener(){	    
+	    public boolean onTouch(View v, MotionEvent event){            
+	       final int action = event.getAction();
+	       
+	       switch (action & MotionEvent.ACTION_MASK) {
+		       case MotionEvent.ACTION_DOWN: 
+		          int x = (int) event.getX();
+		          
+		          if(compression){									
+		        	  clickedTime = (float)x / (((float)SAMPLE_RATE / (float)compressionRatio) / (float)bitmapAmplitudeStretch);							
+					}		
+					else{
+						clickedTime = (float)x / ((float)SAMPLE_RATE / (float)bitmapAmplitudeStretch);
+					}
+		          
+		          Log.i("clicked time: ", "" + clickedTime);
+		       break;
+	       }
+	       
+	       return false;
+	    }
+
+	    
+	};	
 }

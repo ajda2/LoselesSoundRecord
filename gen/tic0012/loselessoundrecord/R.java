@@ -31,10 +31,11 @@ public final class R {
     public static final class id {
         public static final int CategoryList=0x7f090009;
         public static final int LinearLayout1=0x7f090005;
+        public static final int context_menu_add_gunshot=0x7f090024;
         public static final int context_menu_delete=0x7f090022;
         public static final int context_menu_edit=0x7f090023;
-        public static final int context_menu_hide_picture=0x7f090024;
-        public static final int context_menu_record_share=0x7f090025;
+        public static final int context_menu_hide_picture=0x7f090025;
+        public static final int context_menu_record_share=0x7f090026;
         public static final int delete_wav_checkbox=0x7f090011;
         public static final int dialog_countdown_text=0x7f09000c;
         public static final int dialog_editText=0x7f09000b;
